@@ -22,9 +22,10 @@ class BasePage:
     def get_actual_url(self) -> str:
         return self._driver.current_url
 
-    def element_exists(self, locator: Tuple[Any, str]) -> bool:
+    def element_exists(self, locator: Tuple[Any, str], wait: int = 0) -> bool:
         try:
-            self.__wait.until(EC.presence_of_element_located(locator))
+            wait_for_element: WebDriverWait = WebDriverWait(self._driver, wait)
+            wait_for_element.until(EC.presence_of_element_located(locator))
             return True
         except TimeoutException:
             return False
